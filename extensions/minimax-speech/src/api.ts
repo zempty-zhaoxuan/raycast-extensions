@@ -2,15 +2,6 @@ import { getPreferenceValues } from "@raycast/api";
 import fs from "fs";
 import path from "path";
 
-interface Preferences {
-  apiKey: string;
-  outputDir: string;
-  model: string;
-  voiceId: string;
-  speed: string;
-  languageBoost: string;
-}
-
 interface TTSResponse {
   data?: { audio: string; status: number };
   extra_info?: { audio_format: string };

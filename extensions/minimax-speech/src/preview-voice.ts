@@ -4,16 +4,8 @@ import fs from "fs";
 import path from "path";
 import os from "os";
 
-interface Preferences {
-  apiKey: string;
-  model: string;
-  voiceId: string;
-  speed: string;
-  languageBoost: string;
-}
-
 export default async function Command() {
-  const prefs = getPreferenceValues<Preferences>();
+  const prefs = getPreferenceValues<Preferences.PreviewVoice>();
   const sampleText =
     "Hello, this is a preview of the selected voice. 你好，这是当前选中音色的试听效果。";
 

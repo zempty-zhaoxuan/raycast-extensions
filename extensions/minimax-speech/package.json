@@ -1,4 +1,5 @@
 {
+  "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "minimax-speech",
   "title": "MiniMax Speech",
   "description": "Convert text or file content to speech using MiniMax TTS API",

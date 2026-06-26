@@ -9,7 +9,7 @@ import {
 import { generateSpeech } from "./api";
 
 export default async function Command(
-  props: LaunchProps<{ arguments: { text: string } }>,
+  props: LaunchProps<{ arguments: Arguments.TextToSpeech }>,
 ) {
   let text = props.arguments.text;
 
