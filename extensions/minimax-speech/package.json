@@ -1,0 +1,269 @@
+{
+  "name": "minimax-speech",
+  "title": "MiniMax Speech",
+  "description": "Convert text or file content to speech using MiniMax TTS API",
+  "icon": "extension-icon.png",
+  "author": "zempty",
+  "categories": [
+    "Productivity"
+  ],
+  "license": "MIT",
+  "platforms": [
+    "macOS"
+  ],
+  "commands": [
+    {
+      "name": "text-to-speech",
+      "title": "Text to Speech",
+      "description": "Convert input text to speech audio file",
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "text",
+          "type": "text",
+          "placeholder": "Enter text to convert",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "file-to-speech",
+      "title": "File to Speech",
+      "description": "Convert text file content to speech audio file",
+      "mode": "no-view"
+    },
+    {
+      "name": "preview-voice",
+      "title": "Preview Voice",
+      "description": "Preview the currently selected voice with sample text",
+      "mode": "no-view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "apiKey",
+      "title": "API Key",
+      "description": "Your MiniMax API key",
+      "type": "password",
+      "required": true
+    },
+    {
+      "name": "outputDir",
+      "title": "Output Directory",
+      "description": "Directory to save generated audio files",
+      "type": "directory",
+      "required": true
+    },
+    {
+      "name": "model",
+      "title": "Model",
+      "description": "TTS model to use",
+      "type": "dropdown",
+      "required": false,
+      "default": "speech-2.8-hd",
+      "data": [
+        {
+          "title": "Speech 2.8 HD",
+          "value": "speech-2.8-hd"
+        },
+        {
+          "title": "Speech 2.8 Turbo",
+          "value": "speech-2.8-turbo"
+        },
+        {
+          "title": "Speech 2.6 HD",
+          "value": "speech-2.6-hd"
+        },
+        {
+          "title": "Speech 2.6 Turbo",
+          "value": "speech-2.6-turbo"
+        }
+      ]
+    },
+    {
+      "name": "voiceId",
+      "title": "Voice",
+      "description": "Voice for speech synthesis",
+      "type": "dropdown",
+      "required": false,
+      "default": "Friendly_Person",
+      "data": [
+        {
+          "title": "Friendly Person",
+          "value": "Friendly_Person"
+        },
+        {
+          "title": "Wise Woman",
+          "value": "Wise_Woman"
+        },
+        {
+          "title": "Inspirational Girl",
+          "value": "Inspirational_girl"
+        },
+        {
+          "title": "Deep Voice Man",
+          "value": "Deep_Voice_Man"
+        },
+        {
+          "title": "Calm Woman",
+          "value": "Calm_Woman"
+        },
+        {
+          "title": "Casual Guy",
+          "value": "Casual_Guy"
+        },
+        {
+          "title": "Lively Girl",
+          "value": "Lively_Girl"
+        },
+        {
+          "title": "Patient Man",
+          "value": "Patient_Man"
+        },
+        {
+          "title": "Young Knight",
+          "value": "Young_Knight"
+        },
+        {
+          "title": "Determined Man",
+          "value": "Determined_Man"
+        },
+        {
+          "title": "Lovely Girl",
+          "value": "Lovely_Girl"
+        },
+        {
+          "title": "Decent Boy",
+          "value": "Decent_Boy"
+        },
+        {
+          "title": "Imposing Manner",
+          "value": "Imposing_Manner"
+        },
+        {
+          "title": "Elegant Man",
+          "value": "Elegant_Man"
+        },
+        {
+          "title": "Abbess",
+          "value": "Abbess"
+        },
+        {
+          "title": "Sweet Girl",
+          "value": "Sweet_Girl_2"
+        },
+        {
+          "title": "Exuberant Girl",
+          "value": "Exuberant_Girl"
+        },
+        {
+          "title": "English Expressive Narrator",
+          "value": "English_expressive_narrator"
+        },
+        {
+          "title": "English Captivating Female",
+          "value": "English_captivating_female1"
+        }
+      ]
+    },
+    {
+      "name": "speed",
+      "title": "Speed",
+      "description": "Speech speed",
+      "type": "dropdown",
+      "required": false,
+      "default": "1",
+      "data": [
+        {
+          "title": "0.5x",
+          "value": "0.5"
+        },
+        {
+          "title": "0.75x",
+          "value": "0.75"
+        },
+        {
+          "title": "1.0x",
+          "value": "1"
+        },
+        {
+          "title": "1.25x",
+          "value": "1.25"
+        },
+        {
+          "title": "1.5x",
+          "value": "1.5"
+        },
+        {
+          "title": "1.75x",
+          "value": "1.75"
+        },
+        {
+          "title": "2.0x",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "name": "languageBoost",
+      "title": "Language Boost",
+      "description": "Enhance recognition for specific language",
+      "type": "dropdown",
+      "required": false,
+      "default": "auto",
+      "data": [
+        {
+          "title": "Auto",
+          "value": "auto"
+        },
+        {
+          "title": "Chinese",
+          "value": "Chinese"
+        },
+        {
+          "title": "English",
+          "value": "English"
+        },
+        {
+          "title": "Japanese",
+          "value": "Japanese"
+        },
+        {
+          "title": "Korean",
+          "value": "Korean"
+        },
+        {
+          "title": "French",
+          "value": "French"
+        },
+        {
+          "title": "Spanish",
+          "value": "Spanish"
+        },
+        {
+          "title": "German",
+          "value": "German"
+        }
+      ]
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.104.20"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.11",
+    "@types/node": "22.14.0",
+    "@types/react": "19.0.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.4.2",
+    "react": "^19.0.0",
+    "typescript": "^5.7.3"
+  },
+  "scripts": {
+    "build": "RAY_Target=x ray build",
+    "dev": "RAY_Target=x ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}
