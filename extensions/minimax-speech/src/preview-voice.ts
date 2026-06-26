@@ -1,5 +1,5 @@
 import { showToast, Toast, getPreferenceValues } from "@raycast/api";
-import { exec } from "child_process";
+import { execFile } from "child_process";
 import fs from "fs";
 import path from "path";
 import os from "os";
@@ -63,9 +63,8 @@ export default async function Command() {
     const tmpFile = path.join(os.tmpdir(), `minimax_preview_${Date.now()}.mp3`);
     fs.writeFileSync(tmpFile, Buffer.from(json.data.audio, "hex"));
 
-    // Play with macOS afplay
-    exec(`afplay "${tmpFile}"`, () => {
-      fs.unlinkSync(tmpFile);
+    execFile("afplay", [tmpFile], () => {
+      fs.rm(tmpFile, { force: true }, () => undefined);
     });
     await showToast({
       style: Toast.Style.Success,

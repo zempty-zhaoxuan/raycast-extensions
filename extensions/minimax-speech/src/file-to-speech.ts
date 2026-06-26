@@ -1,8 +1,10 @@
 import { showHUD, showToast, Toast } from "@raycast/api";
 import { generateSpeech } from "./api";
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 import fs from "fs";
 import path from "path";
+
+const MAX_EXTRACT_BUFFER = 10 * 1024 * 1024;
 
 function extractText(filePath: string): string {
   const ext = path.extname(filePath).toLowerCase();
@@ -22,10 +24,9 @@ function extractText(filePath: string): string {
     case ".pdf":
       try {
         // macOS native PDFKit via osascript (no external dependency)
-        return execSync(
-          `osascript -l JavaScript -e '
+        const script = `
             ObjC.import("Quartz");
-            var url = $.NSURL.fileURLWithPath("${filePath.replace(/"/g, '\\"')}");
+            var url = $.NSURL.fileURLWithPath(${JSON.stringify(filePath)});
             var doc = $.PDFDocument.alloc.initWithURL(url);
             if (!doc) throw "Cannot open PDF";
             var text = "";
@@ -33,15 +34,17 @@ function extractText(filePath: string): string {
               text += doc.pageAtIndex(i).string.js + "\\n";
             }
             text;
-          '`,
-          { encoding: "utf-8", maxBuffer: 10 * 1024 * 1024 },
-        );
+          `;
+        return execFileSync("osascript", ["-l", "JavaScript", "-e", script], {
+          encoding: "utf-8",
+          maxBuffer: MAX_EXTRACT_BUFFER,
+        });
       } catch {
         // Fallback: try pdftotext if available
         try {
-          return execSync(`pdftotext '${filePath.replace(/'/g, "'\\''")}' -`, {
+          return execFileSync("pdftotext", [filePath, "-"], {
             encoding: "utf-8",
-            maxBuffer: 10 * 1024 * 1024,
+            maxBuffer: MAX_EXTRACT_BUFFER,
           });
         } catch {
           throw new Error(
@@ -56,9 +59,10 @@ function extractText(filePath: string): string {
     case ".rtfd":
     case ".odt":
       // macOS textutil can convert these to plain text
-      return execSync(
-        `textutil -convert txt -stdout '${filePath.replace(/'/g, "'\\''")}'`,
-        { encoding: "utf-8", maxBuffer: 10 * 1024 * 1024 },
+      return execFileSync(
+        "textutil",
+        ["-convert", "txt", "-stdout", filePath],
+        { encoding: "utf-8", maxBuffer: MAX_EXTRACT_BUFFER },
       );
 
     default:
@@ -70,11 +74,14 @@ export default async function Command() {
   let filePath: string;
 
   try {
-    filePath = execSync(
-      `osascript -e 'POSIX path of (choose file of type {"txt","md","text","pdf","doc","docx","rtf","rtfd","odt","csv","log","json","xml","html","htm"} with prompt "Select a file to convert to speech")'`,
-    )
-      .toString()
-      .trim();
+    filePath = execFileSync(
+      "osascript",
+      [
+        "-e",
+        'POSIX path of (choose file of type {"txt","md","text","pdf","doc","docx","rtf","rtfd","odt","csv","log","json","xml","html","htm"} with prompt "Select a file to convert to speech")',
+      ],
+      { encoding: "utf-8" },
+    ).trim();
   } catch {
     return;
   }
