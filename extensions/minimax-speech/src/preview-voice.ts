@@ -5,7 +5,7 @@ import path from "path";
 import os from "os";
 
 export default async function Command() {
-  const prefs = getPreferenceValues<Preferences.PreviewVoice>();
+  const prefs = getPreferenceValues<Preferences>();
   const sampleText =
     "Hello, this is a preview of the selected voice. 你好，这是当前选中音色的试听效果。";
 
